@@ -15,6 +15,10 @@ public class SudokuAdapter extends RecyclerView.Adapter<SudokuAdapter.ViewHolder
         this.squares = squares;
     }
 
+    public void setSquares(int[][] squares) {
+        this.squares = squares;
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View row = LayoutInflater.from(parent.getContext()).inflate(R.layout.sudoku_square, parent, false);

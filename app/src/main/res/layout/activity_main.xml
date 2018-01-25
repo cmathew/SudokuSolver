@@ -7,10 +7,13 @@
     android:orientation="vertical"
     tools:context="com.example.cmathew.sudokusolver.MainActivity">
 
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/puzzle_display"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="400dp"/>
 
+    <Button
+        android:id="@+id/solve_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>
