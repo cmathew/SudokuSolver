@@ -24,7 +24,6 @@ public class Solver {
             return board;
         }
 
-
         ArrayList<ArrayList<HashSet<Integer>>> possibles = getPossibilities(board);
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -39,87 +38,54 @@ public class Solver {
 
         // if no change in possibilites, then this board is unsolvable?
 
-
         return board;
     }
 
     private ArrayList<ArrayList<HashSet<Integer>>> getPossibilities(int[][] board) {
-        // Populate initial possbilites for each cell
-        ArrayList<ArrayList<HashSet<Integer>>> possibles = new ArrayList<>();
-
-        //= new HashSet<Integer>[9][9];
-        for (int i = 0; i < 9; i++) {
-            possibles.add(new ArrayList<HashSet<Integer>>());
-
-            for (int j = 0; j < 9; j++) {
-                possibles.get(i).add(new HashSet<Integer>());
-
-                if (board[i][j] == 0) {
-                    possibles.get(i).set(j, new HashSet<Integer>());
-
+        // Populate initial possibilities for each cell
+        ArrayList<ArrayList<HashSet<Integer>>> possiblesMatrix = new ArrayList<>();
+        for (int row = 0; row < 9; row++) {
+            possiblesMatrix.add(new ArrayList<HashSet<Integer>>());
+            for (int col = 0; col < 9; col++) {
+                if (board[row][col] == 0) {
+                    HashSet<Integer> allPossible = new HashSet<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
+                    possiblesMatrix.get(row).add(allPossible);
                 } else {
-                    HashSet<Integer> allPossible = new HashSet<>();
-                    allPossible.add(1);
-                    allPossible.add(2);
-                    allPossible.add(3);
-                    allPossible.add(4);
-                    allPossible.add(5);
-                    allPossible.add(6);
-                    allPossible.add(7);
-                    allPossible.add(8);
-                    allPossible.add(9);
-
-                    possibles.get(i).set(j, allPossible);
+                    possiblesMatrix.get(row).add(new HashSet<Integer>());
                 }
             }
         }
 
-
-        // for each row
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                int value = board[i][j];
-                if (value != 0) {
-                    possibles.get(i).get(j).remove(value);
-                }
-            }
-        }
-
-
-        // for each column
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                int value = board[j][i];
-                if (value != 0) {
-                    possibles.get(j).get(i).remove(value);
-                }
-            }
-        }
-
-
-        // Game board has 3x3 "mini-boards"
-        // Index by real index / 3
-        //ArrayList<ArrayList<HashSet<Integer>>> miniBoards = new ArrayList<ArrayList<HashSet<Integer>>>();
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                int value = board[i][j];
-                int miniGameY = i / 3;
-                int miniGameX = j / 3;
-
+        // Update all aligned rows and columns
+        for (int row = 0; row < 9; row++) {
+            for (int col = 0; col < 9; col++) {
+                int value = board[row][col];
                 if (value == 0) {
                     continue;
                 }
 
+                // for each row
+                for (ArrayList<HashSet<Integer>> possiblesRow : possiblesMatrix) {
+                    possiblesRow.get(col).remove(value);
+                }
 
+                // for each column
+                for (HashSet<Integer> possiblesCell : possiblesMatrix.get(row)) {
+                    possiblesCell.remove(value);
+                }
+
+                // for each 3x3 sub-board neighbor
+                int miniGameY = row / 3;
+                int miniGameX = col / 3;
                 for (int mi = miniGameY * 3; mi < (miniGameY + 1) * 3; mi++) {
                     for (int mj = miniGameX * 3; mj < (miniGameX + 1) * 3; mj++) {
-                        possibles.get(mi).get(mj).remove(value);
+                        possiblesMatrix.get(mi).get(mj).remove(value);
                     }
                 }
             }
         }
 
-        return possibles;
+        return possiblesMatrix;
     }
 }
 
