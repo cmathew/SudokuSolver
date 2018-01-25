@@ -17,11 +17,11 @@ public class Solver {
         return allSolved;
     }
 
-    public int[][] solveBoard(int[][] board) {
+    public boolean solveBoard(int[][] board) {
         // Base condition: return if possibilites arrays are empty
         boolean allSolved = isBoardSolved(board);
         if (allSolved) {
-            return board;
+            return true;
         }
 
         ArrayList<ArrayList<HashSet<Integer>>> possibles = getPossibilities(board);
@@ -30,15 +30,14 @@ public class Solver {
                 HashSet<Integer> cellPossibles = possibles.get(i).get(j);
                 for (Integer answer : cellPossibles) {
                     board[i][j] = answer;
-                    solveBoard(board);
-                    //boolean resultSolved = isBoardSolved(result);
+                    if (solveBoard(board)) {
+                        return true;
+                    }
                 }
             }
         }
 
-        // if no change in possibilites, then this board is unsolvable?
-
-        return board;
+        return false;
     }
 
     private ArrayList<ArrayList<HashSet<Integer>>> getPossibilities(int[][] board) {

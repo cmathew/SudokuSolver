@@ -42,9 +42,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Solver solver = new Solver();
-                int[][] solution = solver.solveBoard(board);
-                sudokuAdapter.setSquares(solution);
-                sudokuAdapter.notifyDataSetChanged();
+                boolean solvable = solver.solveBoard(board);
+                solveButton.setText(String.valueOf(solvable));
+                //sudokuAdapter.setSquares(solution);
+                //sudokuAdapter.notifyDataSetChanged();
             }
         });
     }
