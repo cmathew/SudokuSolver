@@ -17,8 +17,19 @@ public class Solver {
         return allSolved;
     }
 
+    private int[][] copyBoard(int[][] board) {
+        int [][] boardCopy = new int[9][9];
+        for (int i=0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                boardCopy[i][j] = board[i][j];
+            }
+        }
+
+        return boardCopy;
+    }
+
     public boolean solveBoard(int[][] board) {
-        // Base condition: return if possibilites arrays are empty
+        // Base condition: return if possibilities arrays are empty
         boolean allSolved = isBoardSolved(board);
         if (allSolved) {
             return true;
@@ -28,7 +39,22 @@ public class Solver {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 HashSet<Integer> cellPossibles = possibles.get(i).get(j);
+                if (cellPossibles.size() == 1) {
+                    for (Integer answer : cellPossibles) {
+                        board[i][j] = answer;
+                    }
+
+                    possibles.get(i).set(j, new HashSet<Integer>());
+                }
+            }
+        }
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                HashSet<Integer> cellPossibles = possibles.get(i).get(j);
                 for (Integer answer : cellPossibles) {
+                    // need to copy board here?
+                    // int[][] boardCopy = copyBoard(board);
                     board[i][j] = answer;
                     if (solveBoard(board)) {
                         return true;
