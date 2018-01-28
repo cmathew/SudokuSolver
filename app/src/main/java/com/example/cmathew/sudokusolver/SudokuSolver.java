@@ -1,6 +1,6 @@
 package com.example.cmathew.sudokusolver;
 
-public class BacktrackSolver {
+public class SudokuSolver {
     private static int BOARD_SIZE = 9;
     private static int BOX_SIZE = 3;
     private static int[] PossibleValues = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };

@@ -6,16 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-public class SudokuAdapter extends RecyclerView.Adapter<SudokuAdapter.ViewHolder> {
+public class SudokuGridAdapter extends RecyclerView.Adapter<SudokuGridAdapter.ViewHolder> {
     private int[][] squares;
 
-    public SudokuAdapter(int[][] squares) {
-        this.squares = squares;
-    }
-
-    public void setSquares(int[][] squares) {
+    public SudokuGridAdapter(int[][] squares) {
         this.squares = squares;
     }
 
@@ -23,7 +17,7 @@ public class SudokuAdapter extends RecyclerView.Adapter<SudokuAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View row = LayoutInflater.from(parent.getContext()).inflate(R.layout.sudoku_square, parent, false);
 
-        return new SudokuAdapter.ViewHolder(row);
+        return new SudokuGridAdapter.ViewHolder(row);
     }
 
     @Override
